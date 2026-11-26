@@ -9,9 +9,12 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y lld
       - name: Build arm64 iOS dylib
         run: |
+          set -x
+          clang --version
+          ls -l /usr/bin/ld* || true
           clang -target arm64-apple-ios15.0 -O2 -dynamiclib \
             -nostdlib -nodefaultlibs -fno-stack-protector -fno-exceptions \
-            -fuse-ld=/usr/bin/ld64.lld -Wl,-undefined,dynamic_lookup \
+            -fuse-ld=lld -Wl,-undefined,dynamic_lookup \
             wgkill.m -o libwgkill.dylib
           file libwgkill.dylib
       - uses: actions/upload-artifact@v4
