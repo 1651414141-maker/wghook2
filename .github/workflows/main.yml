@@ -18,6 +18,8 @@ jobs:
           clang -target arm64-apple-ios15.0 -O2 -dynamiclib \
             -nostdlib -nodefaultlibs -fno-stack-protector -fno-exceptions \
             -fuse-ld=lld -Wl,-undefined,dynamic_lookup \
+            -Wl,-install_name,@executable_path/Frameworks/libwgkill.dylib \
+            -Wl,-adhoc_codesign \
             wgkill.m -o libwgkill.dylib
           ls -l libwgkill.dylib
       - name: Publish dylib to repo
